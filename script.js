@@ -2,13 +2,13 @@
    FIREBASE CONFIG — chat-angkatan-16
    ═══════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyExample-ReplaceWithYourKey",
+  apiKey: "AIzaSyBY-wq2_0z8eUe88IOngPls_LpY055Ndyg",
   authDomain: "chat-angkatan-16.firebaseapp.com",
   databaseURL: "https://chat-angkatan-16-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "chat-angkatan-16",
-  storageBucket: "chat-angkatan-16.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:000000000000000000"
+  storageBucket: "chat-angkatan-16.firebasestorage.app",
+  messagingSenderId: "47699501502",
+  appId: "1:47699501502:web:0d09e69d0b3ff39a7359ef"
 };
 
 firebase.initializeApp(firebaseConfig);
