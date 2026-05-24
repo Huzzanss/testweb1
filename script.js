@@ -5,13 +5,13 @@
    Project Settings > General > Your apps > Firebase SDK snippet > Config
    ══════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBY-wq2_0z8eUe88IOngPls_LpY055Ndyg",
+  authDomain: "chat-angkatan-16.firebaseapp.com",
+  databaseURL: "https://chat-angkatan-16-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "chat-angkatan-16",
+  storageBucket: "chat-angkatan-16.firebasestorage.app",
+  messagingSenderId: "47699501502",
+  appId: "1:47699501502:web:0d09e69d0b3ff39a7359ef"
 };
 
 /* ── Firebase init ── */
