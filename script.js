@@ -284,11 +284,9 @@ function closeLightbox() {
 /* ══════════════════════════════════════════
    ANONYMOUS CHAT — Firebase Realtime Database
    ══════════════════════════════════════════ */
-const NICK_EMOJIS = ['🌸','🌟','🎓','🌻','🦋','🌈','⭐','🎨','🌙','🦄','🍀','🎵','🌺','🔥','💫','🎯','🌊','🎪'];
+const NICK_EMOJIS = [''];
 const NICK_NAMES = [
-  'Bunga Kecil','Bintang Fajar','Sang Penjelajah','Angin Pagi','Embun Senja',
-  'Cahaya Senja','Pejuang Muda','Sang Pemimpi','Awan Putih','Rembulan',
-  'Sang Pejuang','Bintang Kecil','Langit Biru','Sang Juara','Mentari Pagi'
+  'Anonim'
 ];
 
 let myNickname = '';
