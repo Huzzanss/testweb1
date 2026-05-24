@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XVI Bunga Bangsa — Graduation Memories 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<!-- ══ FIREBASE SDK ══ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress"></div>
+
+<!-- ══ LOADER ══ -->
+<div id="loader">
+  <div class="ld-logo">XVI Bunga Bangsa</div>
+  <div class="ld-sub">Graduation Memories 2026</div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">BB<span>·</span>2026</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#classes">Kelas</a></li>
+      <li><a href="#students">Siswa</a></li>
+      <li><a href="#memories-gallery">Gallery</a></li>
+      <li><a href="#chat">Chat</a></li>
+    </ul>
+    <button class="burger" id="burger" onclick="toggleBurger()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mob" id="nav-mob">
+    <a href="#home" onclick="closeBurger()">Home</a>
+    <a href="#classes" onclick="closeBurger()">Kelas</a>
+    <a href="#students" onclick="closeBurger()">Siswa</a>
+    <a href="#memories-gallery" onclick="closeBurger()">Gallery</a>
+    <a href="#chat" onclick="closeBurger()">Chat</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="home">
+  <div class="hero-bg-text" aria-hidden="true">2026</div>
+  <div class="hero-deco-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">SD Islam Terpadu Bunga Bangsa · Samarinda</div>
+    <div class="hero-year">Wisuda Angkatan XVI</div>
+    <h1 class="hero-title">Bunga Bangsa<br><em>Graduation</em></h1>
+    <p class="hero-subtitle">Memories · Class of 2026</p>
+    <p class="hero-quote">
+      "Persahabatan yang kita bina, tawa yang kita bagi,<br>
+      dan kenangan yang kita ukir — akan selalu hidup dalam hati."
+    </p>
+    <a href="#countdown" class="hero-scroll-btn">
+      <span>Scroll</span>
+      <span class="scroll-arr">↓</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══ COUNTDOWN ══ -->
+<div id="countdown">
+  <div class="cd-grid">
+    <div class="cd-card">
+      <div class="cd-accent-bar bar-gold"></div>
+      <div class="cd-event">🎓 Wisuda</div>
+      <div class="cd-date-lbl">13 Mei 2026</div>
+      <div class="cd-timer" id="cd1"></div>
+    </div>
+    <div class="cd-card">
+      <div class="cd-accent-bar bar-rose"></div>
+      <div class="cd-event">🌸 Perpisahan</div>
+      <div class="cd-date-lbl">30 Mei 2026</div>
+      <div class="cd-timer" id="cd2"></div>
+    </div>
+    <div class="cd-card">
+      <div class="cd-accent-bar bar-teal"></div>
+      <div class="cd-event">📜 Pengumuman Kelulusan</div>
+      <div class="cd-date-lbl">2 Juni 2026</div>
+      <div class="cd-timer" id="cd3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLASSES ══ -->
+<section id="classes" class="sec">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Kelas Wisuda 2026</span>
+      <h2 class="sec-title">Tiga Kelas.<br><em>Satu Kenangan.</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="class-grid">
+      <!-- Kahayan -->
+      <div class="class-card rev" style="transition-delay:.05s">
+        <div class="class-top class-top-gold">
+          <div class="class-deco">I</div>
+          <div class="class-num num-gold">Kelas 1</div>
+          <div class="class-name">VI Kahayan</div>
+          <div class="class-teacher">Wali Kelas: <strong>Miss Sri</strong></div>
+        </div>
+        <div class="class-body">
+          <div class="class-count">18 Siswa</div>
+          <ul class="stu-list li-gold">
+            <li>Abdullah Raziq Hanan</li><li>Aditya Narendra Pambudi</li>
+            <li>Ahmad Abdullah Hafi Munaji</li><li>Alesha Zevanna Annayla Alfian</li>
+            <li>Alisha Nur Afiyah</li><li>Azim Evano Rahman</li>
+            <li>Deeandra Mikhailla Hariyadi</li><li>Faqih Hamizan Rahman</li>
+            <li>Gavin Ahmad Farisakha Sahilin</li><li>Hana Aish Sumayyah</li>
+            <li>Javier Al Majid</li><li>Muhammad Alfindra Auvar Rahardja</li>
+            <li>Muhammad Asyraf Al Farisi</li><li>Muhammad Hafiz Faad Abqory</li>
+            <li>Nuhammad Rezky Tri Ramadhan</li><li>Nayhan Abqari</li>
+            <li>Samytha Larisa Azzalea</li><li>Zahratu Syifa</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Kapuas -->
+      <div class="class-card rev" style="transition-delay:.12s">
+        <div class="class-top class-top-rose">
+          <div class="class-deco">II</div>
+          <div class="class-num num-rose">Kelas 2</div>
+          <div class="class-name">VI Kapuas</div>
+          <div class="class-teacher">Wali Kelas: <strong>Miss Novita</strong></div>
+        </div>
+        <div class="class-body">
+          <div class="class-count">23 Siswa</div>
+          <ul class="stu-list li-rose">
+            <li>Ahmad Faezya Rafa</li><li>Ahmad Hamdan Nurzati</li>
+            <li>Alkhalifi Hasyimi</li><li>Andra Alghifari</li>
+            <li>Angelina Natalia Tennes</li><li>Arsenio Al Fattan Wibowo</li>
+            <li>Chaerul Risyad Ferdansyah</li><li>Devan Rafandra Pratama</li>
+            <li>Ghaisan Adib Mubasyir</li><li>Kanaya Lubna Janitra Hafizah</li>
+            <li>Keisha Pratiwi Syahrizal</li><li>Muhammad Ahza Farezell</li>
+            <li>Muhammad Zaki Raditya</li><li>Muhammad Zamzam Zidna Fahn</li>
+            <li>Nada Fajriah Salsabilla</li><li>Nur Aisyah</li>
+            <li>Nurul Farhana Aqilah Chandra</li><li>Shazia Amira Zhafirah</li>
+            <li>Super Novel Hardian</li><li>Syaqila Marwa Putri Deandra</li>
+            <li>Syrenia Carrisa Althafunnisa</li><li>Muhammad Mezameru Arsyada</li>
+            <li>Shidqia Nabila Azzahra</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Mahakam -->
+      <div class="class-card rev" style="transition-delay:.2s">
+        <div class="class-top class-top-teal">
+          <div class="class-deco">III</div>
+          <div class="class-num num-teal">Kelas 3</div>
+          <div class="class-name">VI Mahakam</div>
+          <div class="class-teacher">Wali Kelas: <strong>Miss Yeny</strong></div>
+        </div>
+        <div class="class-body">
+          <div class="class-count">21 Siswa</div>
+          <ul class="stu-list li-teal">
+            <li>Adelia Felicia</li><li>Afiqah Humayra Arresky</li>
+            <li>Alexandra Shavira Kaysa</li><li>Alisya Zella Naura Saputro</li>
+            <li>Alita Admiral</li><li>Aqillah Khayyirah</li>
+            <li>Azima Zafeera Khairiya</li><li>Azka Aisy Muhammad Firdaus</li>
+            <li>Farrel Azka Firlana</li><li>Fattah Altaf Qusyairi</li>
+            <li>Giovanny Syahputra</li><li>Gusti Muhammad An-Nafis</li>
+            <li>Hilmi Muhammad Nidho Mudhin</li><li>Khalika Ismatullah Assahla</li>
+            <li>Muhammad Abdurrahman Dzaki</li><li>Muhammad El Junot Razqal</li>
+            <li>Muhammad Fahri Ardani</li><li>Muhammad Hafidz Setiadi</li>
+            <li>Muhammad Juna Defa Alfarizie</li><li>Muhammad Zharif Syatir</li>
+            <li>Syifa Fathiyah Zahra</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STUDENT GALLERY ══ -->
+<section id="students" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Siswa Terbaik</span>
+      <h2 class="sec-title">62 Wajah.<br><em>62 Cerita.</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="filter-row rev">
+      <button class="fbtn on" onclick="doFilter('all',this)">Semua Siswa</button>
+      <button class="fbtn" onclick="doFilter('k',this)">VI Kahayan</button>
+      <button class="fbtn" onclick="doFilter('p',this)">VI Kapuas</button>
+      <button class="fbtn" onclick="doFilter('m',this)">VI Mahakam</button>
+    </div>
+    <div class="gal-grid" id="gal"></div>
+  </div>
+</section>
+
+<!-- ══ PHOTO GALLERY (UPLOAD) ══ -->
+<section id="memories-gallery" class="sec">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Kenangan Bersama</span>
+      <h2 class="sec-title">Momen yang<br><em>Tak Terlupakan.</em></h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <!-- Firebase not configured warning -->
+    <div class="firebase-banner" id="fb-banner">
+      ⚠️ <strong>Firebase belum dikonfigurasi.</strong> Buka file ini, cari bagian <code>firebaseConfig</code> di JavaScript dan isi dengan kredensial Firebase proyekmu. 
+      Lihat bagian bawah untuk instruksi lengkap.
+    </div>
+
+    <div class="photo-toolbar rev">
+      <div class="photo-count" id="photo-count">Memuat foto...</div>
+      <button class="upload-btn" id="uploadBtn" onclick="triggerUpload()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload Foto
+      </button>
+      <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleUpload(event)">
+    </div>
+
+    <div class="photo-masonry rev" id="photoGrid">
+      <div class="photo-empty" id="photoEmpty" style="display:none">
+        <span>📷</span>
+        Belum ada foto yang diupload.<br>Jadilah yang pertama berbagi kenangan!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BIG QUOTE ══ -->
+<div class="big-quote-sec">
+  <blockquote class="big-quote rev">
+    "Ke mana pun jalan hidupmu membawamu,<br>
+    bawa tempat ini di dalam hatimu —<br>
+    <span>di sinilah kamu pertama kali belajar untuk terbang.</span>"
+  </blockquote>
+  <p class="bq-attr rev" style="transition-delay:.2s">Bunga Bangsa · Samarinda · 2026</p>
+</div>
+
+<!-- ══ ANONYMOUS CHAT ══ -->
+<section id="chat" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Ruang Kenangan</span>
+      <h2 class="sec-title">Chat <em>Anonim.</em></h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="chat-layout">
+      <!-- Chat Box -->
+      <div class="chat-box rev">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="chat-online-dot"></div>
+            <div>
+              <div class="chat-title">Ruang Obrolan Wisuda</div>
+              <div class="chat-subtitle">Semua pesan bersifat anonim</div>
+            </div>
+          </div>
+          <div class="chat-online-count" id="onlineCount">● Live</div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-sys">Memuat pesan...</div>
+        </div>
+        <div class="chat-footer">
+          <textarea
+            class="chat-input"
+            id="chatInput"
+            placeholder="Tulis pesanmu... (Enter untuk kirim)"
+            rows="1"
+            onkeydown="handleChatKey(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="chat-send" onclick="sendMessage()" title="Kirim">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="my-nick-card rev" style="transition-delay:.1s">
+          <h4>Identitasmu</h4>
+          <p>Kamu akan chatan dengan nickname acak. Tidak ada yang tahu siapa kamu 🤫</p>
+          <div class="nick-display">
+            <div class="nick-emoji" id="myNickEmoji">🌸</div>
+            <div>
+              <div class="nick-name" id="myNickName">Anonim</div>
+              <div class="nick-badge">Nickname sesimu</div>
+            </div>
+          </div>
+          <div class="chat-rules">
+            <p>
+              <strong>Aturan chat:</strong><br>
+              ✦ Jaga sopan santun<br>
+              ✦ Tidak ada bullying<br>
+              ✦ Bagikan kenangan indah<br>
+              ✦ Hormati semua orang
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-logo rev">XVI <span>Bunga Bangsa</span></div>
+    <div class="ft-sub rev">Terima kasih atas semua kenangan indah ini.</div>
+    <div class="ft-line"></div>
+    <div class="ft-socials rev">
+      <a class="ft-ico" href="#">ig</a>
+      <a class="ft-ico" href="#">yt</a>
+      <a class="ft-ico" href="#">tk</a>
+      <a class="ft-ico" href="#">wa</a>
+    </div>
+    <div class="ft-copy rev">
+      © 2026 <em>XVI Bunga Bangsa</em> · SD IT Bunga Bangsa · Samarinda, Kalimantan Timur
+    </div>
+  </div>
+</footer>
+
+<!-- Upload Progress Toast -->
+<div class="upload-progress" id="uploadProgress">
+  <span id="uploadProgressText">Mengupload...</span>
+  <div class="up-bar-wrap"><div class="up-bar" id="uploadBar" style="width:0%"></div></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
