@@ -274,7 +274,7 @@ const CAT_CLASS = {
 const EVENTS_DATA = [
   // April
   { title: "Pra Munaqasyah",              date: "2026-04-01", endDate: "2026-04-01", cat: "akademik" },
-  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-10", cat: "akademik" },
+  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-30", cat: "akademik" },
   { title: "Pintar 2 Kelas 6",            date: "2026-04-10", endDate: "2026-04-11", cat: "akademik" },
   { title: "Munaqosah",                    date: "2026-04-15", endDate: "2026-04-15", cat: "keagamaan" },
   { title: "TKA di Lab Komputer",          date: "2026-04-22", endDate: "2026-04-23", cat: "akademik" },
@@ -440,65 +440,91 @@ function loadMading() {
       feed.innerHTML = `<div class="mading-empty">📌 Belum ada postingan. Jadilah yang pertama!</div>`;
       return;
     }
-    filtered.forEach(p => feed.appendChild(buildMadingCard(p)));
+    filtered.forEach(p => {
+      try {
+        const card = buildMadingCard(p);
+        if (card) feed.appendChild(card);
+      } catch(err) {
+        console.warn('Skip post', p.key, err.message);
+      }
+    });
   });
   madingUnsub = () => ref.off('value');
 }
 
 function buildMadingCard(post) {
-  const el   = document.createElement('div');
-  el.className = 'mading-card';
-  el.dataset.key = post.key;
+  const el = document.createElement('div');
+  el.className   = 'mading-card';
+  el.dataset.key = post.key || '';
+
+  // ── safe field reads ──
+  const text      = post.text  != null ? String(post.text)  : '';
+  const name      = post.name  != null ? String(post.name)  : 'Anonim';
+  const avatarStr = post.Avatar || post.avatar || '🌸';
+  const type      = post.type  || 'post';
 
   const timeStr = post.ts
-    ? new Date(post.ts).toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})
+    ? new Date(Number(post.ts)).toLocaleString('id-ID',
+        {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})
     : '';
-  const badgeClass = { post:'badge-post', pengumuman:'badge-pengumuman', polling:'badge-polling' }[post.type] || 'badge-post';
-  const typeLabel  = { post:'Post', pengumuman:'📢 Pengumuman', polling:'📊 Polling' }[post.type] || 'Post';
 
-  let body = `<div class="mading-card-text">${escHtml(post.text)}</div>`;
+  const badgeMap = { post:'badge-post', pengumuman:'badge-pengumuman', polling:'badge-polling' };
+  const labelMap = { post:'Post', pengumuman:'📢 Pengumuman', polling:'📊 Polling' };
+  const badgeClass = badgeMap[type] || 'badge-post';
+  const typeLabel  = labelMap[type] || 'Post';
 
-  if (post.type === 'polling' && post.options) {
-    const voted  = getVoted();
-    const myVote = voted[post.key] !== undefined ? voted[post.key] : -1;
-    const total  = Object.values(post.votes || {}).reduce((s, v) => s + v, 0);
-    const hasVoted = myVote >= 0;
+  let body = '<div class="mading-card-text">' + escHtml(text) + '</div>';
 
-    const optHtml = post.options.map((opt, i) => {
-      const count = (post.votes && post.votes[i]) || 0;
-      const pct   = total > 0 ? Math.round(count / total * 100) : 0;
-      const isVoted   = myVote === i;
-      const isLeading = hasVoted && count === Math.max(...Object.values(post.votes || {0:0}));
-      const votedCls  = isVoted   ? 'voted'   : '';
-      const leadCls   = isLeading && !isVoted ? 'leading' : '';
-      const barStyle  = hasVoted ? `transform:scaleX(${pct/100})` : 'transform:scaleX(0)';
-      return `
-        <button class="poll-option-btn ${votedCls} ${leadCls}"
-          onclick="votePoll('${post.key}', ${i})"
-          ${hasVoted ? 'disabled' : ''}>
-          <div class="poll-bar-bg" style="${barStyle}"></div>
-          <div class="poll-option-content">
-            <span>${escHtml(opt)}</span>
-            ${hasVoted ? `<span class="poll-pct">${pct}%</span>` : ''}
-          </div>
-        </button>`;
-    }).join('');
+  // ── Polling ──
+  if (type === 'polling' && post.options) {
+    // Firebase may store array as object {0:'a', 1:'b'} — normalise to array
+    const optionsArr = Array.isArray(post.options)
+      ? post.options
+      : Object.keys(post.options).sort().map(k => post.options[k]);
 
-    body += `
-      <div class="poll-options">${optHtml}</div>
-      <div class="poll-total">${total} suara</div>`;
+    if (optionsArr.length >= 2) {
+      const voted    = getVoted();
+      const myVote   = voted[post.key] !== undefined ? Number(voted[post.key]) : -1;
+      const hasVoted = myVote >= 0;
+
+      // votes stored as {0:3, 1:1} — also normalise
+      const votesObj = post.votes || {};
+      const total    = Object.values(votesObj).reduce((s, v) => s + Number(v), 0);
+      const maxVotes = total > 0 ? Math.max(...Object.values(votesObj).map(Number)) : 0;
+
+      const optHtml = optionsArr.map((opt, i) => {
+        const count   = Number(votesObj[i] || 0);
+        const pct     = total > 0 ? Math.round(count / total * 100) : 0;
+        const isVoted   = myVote === i;
+        const isLeading = hasVoted && count === maxVotes && count > 0;
+        const votedCls  = isVoted   ? 'voted'   : '';
+        const leadCls   = isLeading && !isVoted ? 'leading' : '';
+        const barStyle  = hasVoted ? 'transform:scaleX(' + (pct/100) + ')' : 'transform:scaleX(0)';
+        return '<button class="poll-option-btn ' + votedCls + ' ' + leadCls + '"'
+          + ' onclick="votePoll(\'' + post.key + '\', ' + i + ')"'
+          + (hasVoted ? ' disabled' : '') + '>'
+          + '<div class="poll-bar-bg" style="' + barStyle + '"></div>'
+          + '<div class="poll-option-content">'
+          + '<span>' + escHtml(String(opt)) + '</span>'
+          + (hasVoted ? '<span class="poll-pct">' + pct + '%</span>' : '')
+          + '</div></button>';
+      }).join('');
+
+      body += '<div class="poll-options">' + optHtml + '</div>'
+            + '<div class="poll-total">' + total + ' suara</div>';
+    }
   }
 
-  el.innerHTML = `
-    <div class="mading-card-header">
-      <div class="mading-card-avatar">${post.Avatar || post.avatar || '🌸'}</div>
-      <div class="mading-card-meta">
-        <div class="mading-card-name">${escHtml(post.name || 'Anonim')}</div>
-        <div class="mading-card-time">${timeStr}</div>
-      </div>
-      <span class="mading-badge ${badgeClass}">${typeLabel}</span>
-    </div>
-    ${body}`;
+  el.innerHTML =
+    '<div class="mading-card-header">'
+      + '<div class="mading-card-avatar">' + avatarStr + '</div>'
+      + '<div class="mading-card-meta">'
+        + '<div class="mading-card-name">' + escHtml(name) + '</div>'
+        + '<div class="mading-card-time">' + timeStr + '</div>'
+      + '</div>'
+      + '<span class="mading-badge ' + badgeClass + '">' + typeLabel + '</span>'
+    + '</div>'
+    + body;
 
   return el;
 }
