@@ -2,13 +2,13 @@
    FIREBASE CONFIG — chat-angkatan-16
    ═══════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyBY-wq2_0z8eUe88IOngPls_LpY055Ndyg",
+  apiKey: "AIzaSyExample-ReplaceWithYourKey",
   authDomain: "chat-angkatan-16.firebaseapp.com",
   databaseURL: "https://chat-angkatan-16-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "chat-angkatan-16",
-  storageBucket: "chat-angkatan-16.firebasestorage.app",
-  messagingSenderId: "47699501502",
-  appId: "1:47699501502:web:0d09e69d0b3ff39a7359ef"
+  storageBucket: "chat-angkatan-16.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:000000000000000000"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -425,11 +425,13 @@ function loadMading() {
 
   if (madingUnsub) { madingUnsub(); madingUnsub = null; }
 
-  const ref = db.ref('mading/posts').orderByChild('ts').limitToLast(60);
+  // Pakai limitToLast tanpa orderByChild agar tidak perlu index di Firebase Rules
+  const ref = db.ref('mading/posts').limitToLast(60);
   ref.on('value', snap => {
     const posts = [];
     snap.forEach(child => posts.push({ key: child.key, ...child.val() }));
-    posts.reverse();
+    // Sort newest first by ts field
+    posts.sort((a, b) => (b.ts || 0) - (a.ts || 0));
 
     const filtered = madingFilter === 'all' ? posts : posts.filter(p => p.type === madingFilter);
     feed.innerHTML = '';
@@ -515,12 +517,17 @@ function submitMading() {
   if (!text) { alert('Tulis isi postingan dulu!'); return; }
   if (text.length > 300) { alert('Terlalu panjang (maks 300 karakter)'); return; }
 
+  const btn = document.querySelector('.mading-post-btn');
+  btn.disabled = true;
+  btn.textContent = 'Memposting...';
+
   const payload = {
     text,
     type:   madingType,
-    name:   myNickname,
-    avatar: myEmoji,
-    uid:    myUID,
+    name:   myNickname  || 'Anonim',
+    Avatar: myEmoji     || '\u{1F338}',
+    avatar: myEmoji     || '\u{1F338}',
+    uid:    myUID       || 'guest',
     ts:     firebase.database.ServerValue.TIMESTAMP,
   };
 
@@ -528,19 +535,34 @@ function submitMading() {
     const opts = [0,1,2,3]
       .map(i => document.getElementById('pollOpt' + i).value.trim())
       .filter(Boolean);
-    if (opts.length < 2) { alert('Polling perlu minimal 2 pilihan!'); return; }
+    if (opts.length < 2) {
+      alert('Polling perlu minimal 2 pilihan!');
+      btn.disabled = false;
+      btn.textContent = 'Posting';
+      return;
+    }
     payload.options = opts;
     payload.votes   = {};
     opts.forEach((_, i) => { payload.votes[i] = 0; });
   }
 
-  db.ref('mading/posts').push(payload);
-  document.getElementById('madingText').value = '';
-  [0,1,2,3].forEach(i => {
-    const el = document.getElementById('pollOpt' + i);
-    if (el) el.value = '';
-  });
-  document.getElementById('madingCharCount').textContent = '0 / 300';
+  db.ref('mading/posts').push(payload)
+    .then(() => {
+      document.getElementById('madingText').value = '';
+      [0,1,2,3].forEach(i => {
+        const el = document.getElementById('pollOpt' + i);
+        if (el) el.value = '';
+      });
+      document.getElementById('madingCharCount').textContent = '0 / 300';
+      btn.textContent = '\u2713 Terposting!';
+      setTimeout(() => { btn.disabled = false; btn.textContent = 'Posting'; }, 1500);
+    })
+    .catch(err => {
+      console.error('Mading error:', err);
+      alert('Gagal posting: ' + err.message + '\n\nPastikan Firebase Rules: mading/posts = true');
+      btn.disabled = false;
+      btn.textContent = 'Posting';
+    });
 }
 
 // Character counter
