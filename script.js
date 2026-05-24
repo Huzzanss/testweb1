@@ -2,13 +2,13 @@
    FIREBASE CONFIG — chat-angkatan-16
    ═══════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyBY-wq2_0z8eUe88IOngPls_LpY055Ndyg",
+  apiKey: "AIzaSyExample-ReplaceWithYourKey",
   authDomain: "chat-angkatan-16.firebaseapp.com",
   databaseURL: "https://chat-angkatan-16-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "chat-angkatan-16",
-  storageBucket: "chat-angkatan-16.firebasestorage.app",
-  messagingSenderId: "47699501502",
-  appId: "1:47699501502:web:0d09e69d0b3ff39a7359ef"
+  storageBucket: "chat-angkatan-16.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:000000000000000000"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -198,34 +198,53 @@ async function handleUpload(event) {
 }
 
 function loadPhotos() {
-  const grid     = document.getElementById('photoGrid');
-  const empty    = document.getElementById('photoEmpty');
-  const countEl  = document.getElementById('photo-count');
+  const grid    = document.getElementById('photoGrid');
+  const empty   = document.getElementById('photoEmpty');
+  const countEl = document.getElementById('photo-count');
 
   db.ref('gallery').orderByChild('timestamp').on('value', snap => {
     grid.querySelectorAll('.photo-item').forEach(el => el.remove());
     const photos = [];
-    snap.forEach(child => photos.push({ key: child.key, ...child.val() }));
-    photos.reverse();
+    snap.forEach(child => {
+      const val = child.val();
+      // Accept entries that have either url (Storage) or data (base64)
+      if (val && (val.url || val.data)) {
+        photos.push({ key: child.key, ...val });
+      }
+    });
+    photos.reverse(); // newest first
 
     countEl.textContent = `${photos.length} Foto`;
     empty.style.display = photos.length === 0 ? 'block' : 'none';
-    photos.forEach(p => addPhotoCard(p, grid));
-    observeReveal();
+
+    // Render in small batches to avoid blocking the main thread
+    let i = 0;
+    function renderBatch() {
+      const end = Math.min(i + 6, photos.length);
+      for (; i < end; i++) addPhotoCard(photos[i], grid);
+      if (i < photos.length) requestAnimationFrame(renderBatch);
+    }
+    renderBatch();
   });
 }
 
 function addPhotoCard(photo, grid) {
+  // Support both old format (base64 in `data` field) and new format (Storage URL in `url` field)
+  const src = photo.url || photo.data || '';
+  if (!src) return; // skip entries with no image
+
   const item = document.createElement('div');
-  item.className  = 'photo-item';
+  item.className   = 'photo-item';
   item.dataset.key = photo.key;
+
   const date = photo.timestamp
     ? new Date(photo.timestamp).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
     : '';
+
   item.innerHTML = `
-    <img src="${photo.url}" alt="Kenangan" loading="lazy">
+    <img src="${src}" alt="Kenangan" loading="lazy">
     <div class="photo-date">${date}</div>`;
-  item.addEventListener('click', () => openLightbox(photo.url));
+  item.addEventListener('click', () => openLightbox(src));
   grid.appendChild(item);
 }
 
@@ -470,7 +489,7 @@ function buildMadingCard(post) {
 
   el.innerHTML = `
     <div class="mading-card-header">
-      <div class="mading-card-avatar">${post.avatar || '🌸'}</div>
+      <div class="mading-card-avatar">${post.Avatar || post.avatar || '🌸'}</div>
       <div class="mading-card-meta">
         <div class="mading-card-name">${escHtml(post.name || 'Anonim')}</div>
         <div class="mading-card-time">${timeStr}</div>
