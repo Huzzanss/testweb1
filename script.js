@@ -274,7 +274,7 @@ const CAT_CLASS = {
 const EVENTS_DATA = [
   // April
   { title: "Pra Munaqasyah",              date: "2026-04-01", endDate: "2026-04-01", cat: "akademik" },
-  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-30", cat: "akademik" },
+  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-10", cat: "akademik" },
   { title: "Pintar 2 Kelas 6",            date: "2026-04-10", endDate: "2026-04-11", cat: "akademik" },
   { title: "Munaqosah",                    date: "2026-04-15", endDate: "2026-04-15", cat: "keagamaan" },
   { title: "TKA di Lab Komputer",          date: "2026-04-22", endDate: "2026-04-23", cat: "akademik" },
