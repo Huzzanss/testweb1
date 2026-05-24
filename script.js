@@ -285,9 +285,7 @@ function closeLightbox() {
    ANONYMOUS CHAT — Firebase Realtime Database
    ══════════════════════════════════════════ */
 const NICK_EMOJIS = [''];
-const NICK_NAMES = [
-  'Anonim'
-];
+const NICK_NAMES = ['Anonim'];
 
 let myNickname = '';
 let myEmoji = '';
