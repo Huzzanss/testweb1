@@ -8,25 +8,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
-<!-- ══ FIREBASE SDK ══ -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 </head>
 <body>
 
-<!-- Progress bar -->
 <div id="progress"></div>
 
-<!-- ══ LOADER ══ -->
+<!-- LOADER -->
 <div id="loader">
   <div class="ld-logo">XVI Bunga Bangsa</div>
   <div class="ld-sub">Graduation Memories 2026</div>
   <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav id="nav">
   <div class="nav-inner">
     <div class="nav-brand">BB<span>·</span>2026</div>
@@ -35,6 +33,8 @@
       <li><a href="#classes">Kelas</a></li>
       <li><a href="#students">Siswa</a></li>
       <li><a href="#memories-gallery">Gallery</a></li>
+      <li><a href="#kalender">Kalender</a></li>
+      <li><a href="#mading">Mading</a></li>
       <li><a href="#chat">Chat</a></li>
     </ul>
     <button class="burger" id="burger" onclick="toggleBurger()" aria-label="Menu">
@@ -46,11 +46,13 @@
     <a href="#classes" onclick="closeBurger()">Kelas</a>
     <a href="#students" onclick="closeBurger()">Siswa</a>
     <a href="#memories-gallery" onclick="closeBurger()">Gallery</a>
+    <a href="#kalender" onclick="closeBurger()">Kalender</a>
+    <a href="#mading" onclick="closeBurger()">Mading</a>
     <a href="#chat" onclick="closeBurger()">Chat</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
+<!-- HERO -->
 <section id="home">
   <div class="hero-bg-text" aria-hidden="true">2026</div>
   <div class="hero-deco-line"></div>
@@ -65,36 +67,36 @@
     </p>
     <a href="#countdown" class="hero-scroll-btn">
       <span>Scroll</span>
-      <span class="scroll-arr">↓</span>
+      <span class="scroll-arr">&#8595;</span>
     </a>
   </div>
 </section>
 
-<!-- ══ COUNTDOWN ══ -->
+<!-- COUNTDOWN -->
 <div id="countdown">
   <div class="cd-grid">
     <div class="cd-card">
       <div class="cd-accent-bar bar-gold"></div>
-      <div class="cd-event">🎓 Wisuda</div>
+      <div class="cd-event">&#127891; Wisuda</div>
       <div class="cd-date-lbl">13 Mei 2026</div>
       <div class="cd-timer" id="cd1"></div>
     </div>
     <div class="cd-card">
       <div class="cd-accent-bar bar-rose"></div>
-      <div class="cd-event">🌸 Perpisahan</div>
+      <div class="cd-event">&#127800; Perpisahan</div>
       <div class="cd-date-lbl">30 Mei 2026</div>
       <div class="cd-timer" id="cd2"></div>
     </div>
     <div class="cd-card">
       <div class="cd-accent-bar bar-teal"></div>
-      <div class="cd-event">📜 Pengumuman Kelulusan</div>
+      <div class="cd-event">&#128220; Pengumuman Kelulusan</div>
       <div class="cd-date-lbl">2 Juni 2026</div>
       <div class="cd-timer" id="cd3"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ CLASSES ══ -->
+<!-- CLASSES -->
 <section id="classes" class="sec">
   <div class="wrap">
     <div class="sec-head rev">
@@ -103,7 +105,6 @@
       <div class="sec-line"></div>
     </div>
     <div class="class-grid">
-      <!-- Kahayan -->
       <div class="class-card rev" style="transition-delay:.05s">
         <div class="class-top class-top-gold">
           <div class="class-deco">I</div>
@@ -126,7 +127,6 @@
           </ul>
         </div>
       </div>
-      <!-- Kapuas -->
       <div class="class-card rev" style="transition-delay:.12s">
         <div class="class-top class-top-rose">
           <div class="class-deco">II</div>
@@ -152,7 +152,6 @@
           </ul>
         </div>
       </div>
-      <!-- Mahakam -->
       <div class="class-card rev" style="transition-delay:.2s">
         <div class="class-top class-top-teal">
           <div class="class-deco">III</div>
@@ -181,7 +180,7 @@
   </div>
 </section>
 
-<!-- ══ STUDENT GALLERY ══ -->
+<!-- STUDENT GALLERY -->
 <section id="students" class="sec sec-alt">
   <div class="wrap">
     <div class="sec-head rev">
@@ -199,7 +198,7 @@
   </div>
 </section>
 
-<!-- ══ PHOTO GALLERY (UPLOAD) ══ -->
+<!-- PHOTO GALLERY -->
 <section id="memories-gallery" class="sec">
   <div class="wrap">
     <div class="sec-head rev">
@@ -207,13 +206,6 @@
       <h2 class="sec-title">Momen yang<br><em>Tak Terlupakan.</em></h2>
       <div class="sec-line"></div>
     </div>
-
-    <!-- Firebase not configured warning -->
-    <div class="firebase-banner" id="fb-banner">
-      ⚠️ <strong>Firebase belum dikonfigurasi.</strong> Buka file ini, cari bagian <code>firebaseConfig</code> di JavaScript dan isi dengan kredensial Firebase proyekmu. 
-      Lihat bagian bawah untuk instruksi lengkap.
-    </div>
-
     <div class="photo-toolbar rev">
       <div class="photo-count" id="photo-count">Memuat foto...</div>
       <button class="upload-btn" id="uploadBtn" onclick="triggerUpload()">
@@ -222,27 +214,100 @@
       </button>
       <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleUpload(event)">
     </div>
-
     <div class="photo-masonry rev" id="photoGrid">
       <div class="photo-empty" id="photoEmpty" style="display:none">
-        <span>📷</span>
+        <span>&#128247;</span>
         Belum ada foto yang diupload.<br>Jadilah yang pertama berbagi kenangan!
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ BIG QUOTE ══ -->
+<!-- BIG QUOTE -->
 <div class="big-quote-sec">
   <blockquote class="big-quote rev">
     "Ke mana pun jalan hidupmu membawamu,<br>
-    bawa tempat ini di dalam hatimu —<br>
+    bawa tempat ini di dalam hatimu&#8202;&#8202;—<br>
     <span>di sinilah kamu pertama kali belajar untuk terbang.</span>"
   </blockquote>
-  <p class="bq-attr rev" style="transition-delay:.2s">Bunga Bangsa · Samarinda · 2026</p>
+  <p class="bq-attr rev" style="transition-delay:.2s">Bunga Bangsa&#160;&#183;&#160;Samarinda&#160;&#183;&#160;2026</p>
 </div>
 
-<!-- ══ ANONYMOUS CHAT ══ -->
+<!-- KALENDER KEGIATAN -->
+<section id="kalender" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Agenda Angkatan XVI</span>
+      <h2 class="sec-title">Kalender <em>Kegiatan.</em></h2>
+      <p class="sec-sub">Jadwal kegiatan April – Juni 2026</p>
+      <div class="sec-line"></div>
+    </div>
+    <!-- Legend -->
+    <div class="cal-legend rev">
+      <div class="cal-leg-item"><span class="cal-dot cat-akademik"></span>Akademik</div>
+      <div class="cal-leg-item"><span class="cal-dot cat-keagamaan"></span>Keagamaan</div>
+      <div class="cal-leg-item"><span class="cal-dot cat-gladi"></span>Gladi Wisuda</div>
+      <div class="cal-leg-item"><span class="cal-dot cat-wisuda"></span>Wisuda Akbar</div>
+      <div class="cal-leg-item"><span class="cal-dot cat-perpisahan"></span>Perpisahan</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</section>
+
+<!-- MADING ONLINE -->
+<section id="mading" class="sec">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-tag">Suara Angkatan XVI</span>
+      <h2 class="sec-title">Mading <em>Online.</em></h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <!-- Create Post Form -->
+    <div class="mading-form-card rev">
+      <div class="mading-form-header">
+        <div class="mading-my-avatar" id="madingAvatar">&#127800;</div>
+        <div>
+          <div class="mading-my-name" id="madingMyName">Anonim</div>
+          <div class="mading-my-badge">Posting sebagai anonim</div>
+        </div>
+      </div>
+      <!-- Type selector -->
+      <div class="mading-type-row">
+        <button class="mtype-btn on" data-type="post" onclick="selectMadingType('post',this)">&#128172; Post</button>
+        <button class="mtype-btn" data-type="pengumuman" onclick="selectMadingType('pengumuman',this)">&#128226; Pengumuman</button>
+        <button class="mtype-btn" data-type="polling" onclick="selectMadingType('polling',this)">&#128202; Polling</button>
+      </div>
+      <textarea class="mading-textarea" id="madingText" placeholder="Tulis sesuatu untuk angkatan XVI..." rows="3"></textarea>
+      <!-- Polling options (hidden by default) -->
+      <div class="poll-creator" id="pollCreator" style="display:none">
+        <div class="poll-creator-label">Pilihan polling:</div>
+        <input class="poll-opt-input" id="pollOpt0" placeholder="Pilihan 1" maxlength="80">
+        <input class="poll-opt-input" id="pollOpt1" placeholder="Pilihan 2" maxlength="80">
+        <input class="poll-opt-input" id="pollOpt2" placeholder="Pilihan 3 (opsional)" maxlength="80">
+        <input class="poll-opt-input" id="pollOpt3" placeholder="Pilihan 4 (opsional)" maxlength="80">
+      </div>
+      <div class="mading-form-footer">
+        <span class="mading-char-count" id="madingCharCount">0 / 300</span>
+        <button class="mading-post-btn" onclick="submitMading()">Posting</button>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="mading-tabs rev">
+      <button class="mtab on" onclick="filterMading('all',this)">Semua</button>
+      <button class="mtab" onclick="filterMading('post',this)">&#128172; Post</button>
+      <button class="mtab" onclick="filterMading('pengumuman',this)">&#128226; Pengumuman</button>
+      <button class="mtab" onclick="filterMading('polling',this)">&#128202; Polling</button>
+    </div>
+
+    <div class="mading-feed" id="madingFeed">
+      <div class="mading-loading">Memuat mading...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ANONYMOUS CHAT -->
 <section id="chat" class="sec sec-alt">
   <div class="wrap">
     <div class="sec-head rev">
@@ -250,9 +315,7 @@
       <h2 class="sec-title">Chat <em>Anonim.</em></h2>
       <div class="sec-line"></div>
     </div>
-
     <div class="chat-layout">
-      <!-- Chat Box -->
       <div class="chat-box rev">
         <div class="chat-header">
           <div class="chat-header-left">
@@ -262,46 +325,35 @@
               <div class="chat-subtitle">Semua pesan bersifat anonim</div>
             </div>
           </div>
-          <div class="chat-online-count" id="onlineCount">● Live</div>
+          <div class="chat-online-count">&#9679; Live</div>
         </div>
         <div class="chat-messages" id="chatMessages">
           <div class="chat-sys">Memuat pesan...</div>
         </div>
         <div class="chat-footer">
-          <textarea
-            class="chat-input"
-            id="chatInput"
-            placeholder="Tulis pesanmu... (Enter untuk kirim)"
-            rows="1"
-            onkeydown="handleChatKey(event)"
-            oninput="autoResize(this)"
-          ></textarea>
+          <textarea class="chat-input" id="chatInput" placeholder="Tulis pesanmu... (Enter untuk kirim)" rows="1" onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
           <button class="chat-send" onclick="sendMessage()" title="Kirim">
             <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
           </button>
         </div>
       </div>
-
-      <!-- Sidebar -->
       <div>
         <div class="my-nick-card rev" style="transition-delay:.1s">
           <h4>Identitasmu</h4>
-          <p>Kamu akan chatan dengan nickname acak. Tidak ada yang tahu siapa kamu 🤫</p>
+          <p>Kamu akan chatan dengan nickname acak. Tidak ada yang tahu siapa kamu &#129323;</p>
           <div class="nick-display">
-            <div class="nick-emoji" id="myNickEmoji">🌸</div>
+            <div class="nick-emoji" id="myNickEmoji">&#127800;</div>
             <div>
               <div class="nick-name" id="myNickName">Anonim</div>
               <div class="nick-badge">Nickname sesimu</div>
             </div>
           </div>
           <div class="chat-rules">
-            <p>
-              <strong>Aturan chat:</strong><br>
-              ✦ Jaga sopan santun<br>
-              ✦ Tidak ada bullying<br>
-              ✦ Bagikan kenangan indah<br>
-              ✦ Hormati semua orang
-            </p>
+            <p><strong>Aturan chat:</strong><br>
+            &#10086; Jaga sopan santun<br>
+            &#10086; Tidak ada bullying<br>
+            &#10086; Bagikan kenangan indah<br>
+            &#10086; Hormati semua orang</p>
           </div>
         </div>
       </div>
@@ -309,7 +361,7 @@
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <footer>
   <div class="ft-inner">
     <div class="ft-logo rev">XVI <span>Bunga Bangsa</span></div>
@@ -322,7 +374,7 @@
       <a class="ft-ico" href="#">wa</a>
     </div>
     <div class="ft-copy rev">
-      © 2026 <em>XVI Bunga Bangsa</em> · SD IT Bunga Bangsa · Samarinda, Kalimantan Timur
+      &copy; 2026 <em>XVI Bunga Bangsa</em> &middot; SD IT Bunga Bangsa &middot; Samarinda, Kalimantan Timur
     </div>
   </div>
 </footer>
@@ -335,10 +387,9 @@
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close">✕</button>
+  <button class="lightbox-close">&#10005;</button>
   <img id="lightboxImg" src="" alt="">
 </div>
-
 
 <script src="script.js"></script>
 </body>
