@@ -255,54 +255,58 @@
 </section>
 
 <!-- MADING ONLINE -->
-<section id="mading" class="sec">
+<section id="mading" class="mading-dark-sec">
   <div class="wrap">
-    <div class="sec-head rev">
-      <span class="sec-tag">Suara Angkatan XVI</span>
-      <h2 class="sec-title">Mading <em>Online.</em></h2>
-      <div class="sec-line"></div>
+    <!-- Header -->
+    <div class="mading-dark-head rev">
+      <span class="mading-dark-tag">PAPAN PENGUMUMAN DIGITAL</span>
+      <h2 class="mading-dark-title"><em>Mading</em> Angkatan XVI</h2>
+      <p class="mading-dark-sub">Berbagi info, pengumuman, dan poll untuk angkatan!</p>
     </div>
 
     <!-- Create Post Form -->
-    <div class="mading-form-card rev">
-      <div class="mading-form-header">
-        <div class="mading-my-avatar" id="madingAvatar">&#127800;</div>
-        <div>
-          <div class="mading-my-name" id="madingMyName">Anonim</div>
-          <div class="mading-my-badge">Posting sebagai anonim</div>
+    <div class="mading-dark-form rev">
+      <div class="mading-dark-form-top">
+        <div class="mading-dark-avatar" id="madingAvatar">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
         </div>
+        <textarea class="mading-dark-textarea" id="madingText"
+          placeholder="Tulis sesuatu untuk angkatan..." rows="2"
+          oninput="document.getElementById('madingCharCount').textContent=this.value.length+' / 300'"></textarea>
       </div>
-      <!-- Type selector -->
-      <div class="mading-type-row">
-        <button class="mtype-btn on" data-type="post" onclick="selectMadingType('post',this)">&#128172; Post</button>
-        <button class="mtype-btn" data-type="pengumuman" onclick="selectMadingType('pengumuman',this)">&#128226; Pengumuman</button>
-        <button class="mtype-btn" data-type="polling" onclick="selectMadingType('polling',this)">&#128202; Polling</button>
-      </div>
-      <textarea class="mading-textarea" id="madingText" placeholder="Tulis sesuatu untuk angkatan XVI..." rows="3"></textarea>
-      <!-- Polling options (hidden by default) -->
+      <!-- Polling options -->
       <div class="poll-creator" id="pollCreator" style="display:none">
-        <div class="poll-creator-label">Pilihan polling:</div>
         <input class="poll-opt-input" id="pollOpt0" placeholder="Pilihan 1" maxlength="80">
         <input class="poll-opt-input" id="pollOpt1" placeholder="Pilihan 2" maxlength="80">
         <input class="poll-opt-input" id="pollOpt2" placeholder="Pilihan 3 (opsional)" maxlength="80">
         <input class="poll-opt-input" id="pollOpt3" placeholder="Pilihan 4 (opsional)" maxlength="80">
       </div>
-      <div class="mading-form-footer">
-        <span class="mading-char-count" id="madingCharCount">0 / 300</span>
-        <button class="mading-post-btn" onclick="submitMading()">Posting</button>
+      <div class="mading-dark-form-footer">
+        <div class="mading-dark-types">
+          <button class="mtype-dark on" data-type="post" onclick="selectMadingType('post',this)">&#128172; Post</button>
+          <button class="mtype-dark" data-type="pengumuman" onclick="selectMadingType('pengumuman',this)">&#128227; Pengumuman</button>
+          <button class="mtype-dark" data-type="polling" onclick="selectMadingType('polling',this)">&#128202; Poll</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="mading-char-count" id="madingCharCount">0 / 300</span>
+          <button class="mading-dark-send" onclick="submitMading()">
+            Kirim
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Filter tabs -->
-    <div class="mading-tabs rev">
-      <button class="mtab on" onclick="filterMading('all',this)">Semua</button>
-      <button class="mtab" onclick="filterMading('post',this)">&#128172; Post</button>
-      <button class="mtab" onclick="filterMading('pengumuman',this)">&#128226; Pengumuman</button>
-      <button class="mtab" onclick="filterMading('polling',this)">&#128202; Polling</button>
+    <div class="mading-dark-tabs rev">
+      <button class="mdtab on" onclick="filterMading('all',this)">Semua</button>
+      <button class="mdtab" onclick="filterMading('post',this)">Post</button>
+      <button class="mdtab" onclick="filterMading('pengumuman',this)">Pengumuman</button>
+      <button class="mdtab" onclick="filterMading('polling',this)">Poll</button>
     </div>
 
     <div class="mading-feed" id="madingFeed">
-      <div class="mading-loading">Memuat mading...</div>
+      <div class="mading-dark-loading">Memuat mading...</div>
     </div>
   </div>
 </section>
