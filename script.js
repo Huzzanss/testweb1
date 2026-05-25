@@ -414,14 +414,14 @@ function selectMadingType(type, btn) {
 
 function filterMading(type, btn) {
   madingFilter = type;
-  document.querySelectorAll('.mdtab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.mtab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   loadMading();
 }
 
 function loadMading() {
   const feed = document.getElementById('madingFeed');
-  feed.innerHTML = '<div class="mading-dark-loading">Memuat mading...</div>';
+  feed.innerHTML = '<div class="mading-loading">Memuat mading...</div>';
 
   if (madingUnsub) { madingUnsub(); madingUnsub = null; }
 
@@ -437,7 +437,7 @@ function loadMading() {
     feed.innerHTML = '';
 
     if (filtered.length === 0) {
-      feed.innerHTML = `<div class="mading-dark-empty">📌 Belum ada postingan. Jadilah yang pertama!</div>`;
+      feed.innerHTML = `<div class="mading-empty">📌 Belum ada postingan. Jadilah yang pertama!</div>`;
       return;
     }
     filtered.forEach(p => {
@@ -454,50 +454,43 @@ function loadMading() {
 
 function buildMadingCard(post) {
   const el = document.createElement('div');
-  el.className   = 'mading-dark-card';
+  el.className   = 'mading-card';
   el.dataset.key = post.key || '';
 
   const text      = post.text  != null ? String(post.text)  : '';
   const name      = post.name  != null ? String(post.name)  : 'Anonim';
-  const avatarStr = post.Avatar || post.avatar || '';
+  const avatarStr = post.Avatar || post.avatar || '\u{1F338}';
   const type      = post.type  || 'post';
+  const timeAgo   = post.ts ? getTimeAgo(Number(post.ts)) : '';
 
-  // Time ago
-  const timeAgo = post.ts ? getTimeAgo(Number(post.ts)) : '';
-
-  const badgeMap = { post:'mdc-badge-post', pengumuman:'mdc-badge-pengumuman', polling:'mdc-badge-polling' };
-  const labelMap = { post:'Post', pengumuman:'\u{1F4E2} Pengumuman', polling:'\u{1F4CA} Poll' };
-  const badgeClass = badgeMap[type] || 'mdc-badge-post';
+  const badgeMap   = { post:'badge-post', pengumuman:'badge-pengumuman', polling:'badge-polling' };
+  const labelMap   = { post:'Post', pengumuman:'\u{1F4E2} Pengumuman', polling:'\u{1F4CA} Polling' };
+  const badgeClass = badgeMap[type] || 'badge-post';
   const typeLabel  = labelMap[type] || 'Post';
 
-  // Avatar: emoji or person icon SVG
-  const avatarHtml = avatarStr
-    ? '<span style="font-size:1.2rem">' + avatarStr + '</span>'
-    : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
-
-  let body = '<div class="mading-dc-text">' + escHtml(text) + '</div>';
+  let body = '<div class="mading-card-text">' + escHtml(text) + '</div>';
 
   // Polling
   if (type === 'polling' && post.options) {
     const optionsArr = Array.isArray(post.options)
       ? post.options
-      : Object.keys(post.options).sort((a,b)=>Number(a)-Number(b)).map(k => post.options[k]);
+      : Object.keys(post.options).sort((a,b) => Number(a)-Number(b)).map(k => post.options[k]);
 
     if (optionsArr.length >= 2) {
       const voted    = getVoted();
       const myVote   = voted[post.key] !== undefined ? Number(voted[post.key]) : -1;
       const hasVoted = myVote >= 0;
       const votesObj = post.votes || {};
-      const total    = Object.values(votesObj).reduce((s, v) => s + Number(v), 0);
+      const total    = Object.values(votesObj).reduce((s,v) => s + Number(v), 0);
       const maxVotes = total > 0 ? Math.max(...Object.values(votesObj).map(Number)) : 0;
 
       const optHtml = optionsArr.map((opt, i) => {
         const count    = Number(votesObj[i] || 0);
         const pct      = total > 0 ? Math.round(count / total * 100) : 0;
         const isVoted  = myVote === i;
-        const votedCls = isVoted ? 'voted' : '';
+        const isLead   = hasVoted && count === maxVotes && count > 0;
         const barStyle = hasVoted ? 'transform:scaleX(' + (pct/100) + ')' : 'transform:scaleX(0)';
-        return '<button class="poll-option-btn ' + votedCls + '"'
+        return '<button class="poll-option-btn' + (isVoted ? ' voted' : '') + (isLead && !isVoted ? ' leading' : '') + '"'
           + ' onclick="votePoll(\'' + post.key + '\', ' + i + ')"'
           + (hasVoted ? ' disabled' : '') + '>'
           + '<div class="poll-bar-bg" style="' + barStyle + '"></div>'
@@ -512,29 +505,23 @@ function buildMadingCard(post) {
     }
   }
 
-  // Like count from DB, or 0
-  const likeCount    = post.likes  || 0;
-  const commentCount = post.comments || 0;
-  const isLiked      = (getLiked()[post.key] === true);
+  const likeCount = post.likes || 0;
+  const isLiked   = (getLiked()[post.key] === true);
 
   el.innerHTML =
-    '<div class="mading-dc-header">'
-      + '<div class="mading-dc-ava">' + avatarHtml + '</div>'
-      + '<div class="mading-dc-meta">'
-        + '<div class="mading-dc-name">' + escHtml(name) + '</div>'
-        + '<div class="mading-dc-time">' + timeAgo + '</div>'
+    '<div class="mading-card-header">'
+      + '<div class="mading-card-avatar">' + avatarStr + '</div>'
+      + '<div class="mading-card-meta">'
+        + '<div class="mading-card-name">' + escHtml(name) + '</div>'
+        + '<div class="mading-card-time">' + timeAgo + '</div>'
       + '</div>'
-      + '<span class="mading-dc-badge ' + badgeClass + '">' + typeLabel + '</span>'
+      + '<span class="mading-badge ' + badgeClass + '">' + typeLabel + '</span>'
     + '</div>'
     + body
-    + '<div class="mading-dc-actions">'
-      + '<button class="mading-dc-action' + (isLiked ? ' liked' : '') + '" onclick="likePost(\'' + post.key + '\', this)">'
+    + '<div class="mading-card-actions">'
+      + '<button class="mading-action-btn' + (isLiked ? ' liked' : '') + '" onclick="likePost(\'' + post.key + '\', this)">'
         + '<svg viewBox="0 0 24 24" fill="' + (isLiked ? 'currentColor' : 'none') + '" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
         + '<span id="like-count-' + post.key + '">' + likeCount + '</span>'
-      + '</button>'
-      + '<button class="mading-dc-action">'
-        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
-        + '<span>' + commentCount + '</span>'
       + '</button>'
     + '</div>';
 
