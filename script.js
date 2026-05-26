@@ -2,13 +2,13 @@
    FIREBASE CONFIG — chat-angkatan-16
    ═══════════════════════════════════════════════════ */
 const firebaseConfig = {
-  apiKey: "AIzaSyExample-ReplaceWithYourKey",
+  apiKey: "AIzaSyBY-wq2_0z8eUe88IOngPls_LpY055Ndyg",
   authDomain: "chat-angkatan-16.firebaseapp.com",
   databaseURL: "https://chat-angkatan-16-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "chat-angkatan-16",
-  storageBucket: "chat-angkatan-16.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:000000000000000000"
+  storageBucket: "chat-angkatan-16.firebasestorage.app",
+  messagingSenderId: "47699501502",
+  appId: "1:47699501502:web:0d09e69d0b3ff39a7359ef"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -274,7 +274,7 @@ const CAT_CLASS = {
 const EVENTS_DATA = [
   // April
   { title: "Pra Munaqasyah",              date: "2026-04-01", endDate: "2026-04-01", cat: "akademik" },
-  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-30", cat: "akademik" },
+  { title: "UK 2",                         date: "2026-04-02", endDate: "2026-04-10", cat: "akademik" },
   { title: "Pintar 2 Kelas 6",            date: "2026-04-10", endDate: "2026-04-11", cat: "akademik" },
   { title: "Munaqosah",                    date: "2026-04-15", endDate: "2026-04-15", cat: "keagamaan" },
   { title: "TKA di Lab Komputer",          date: "2026-04-22", endDate: "2026-04-23", cat: "akademik" },
@@ -606,12 +606,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ═══════════════════════════════════════════════════
    ANONYMOUS CHAT — Firebase RTDB path: /messages
    ═══════════════════════════════════════════════════ */
-const NICK_EMOJIS = ['🌸','🌟','🎓','🌻','🦋','🌈','⭐','🎨','🌙','🦄','🍀','🎵','🌺','🔥','💫','🎯','🌊','🎪'];
-const NICK_NAMES  = [
-  'Bunga Kecil','Bintang Fajar','Sang Penjelajah','Angin Pagi','Embun Senja',
-  'Cahaya Senja','Pejuang Muda','Sang Pemimpi','Awan Putih','Rembulan',
-  'Sang Pejuang','Bintang Kecil','Langit Biru','Sang Juara','Mentari Pagi',
-];
+const NICK_EMOJIS = [''];
+const NICK_NAMES  = ['Anonim',];
 
 let myNickname = '';
 let myEmoji    = '';
